@@ -4,6 +4,18 @@
 
 from urllib.request import urlretrieve
 
+#!抓取网页数据
+def download(url, process):  
+    try:
+        retval = urlretrieve(url)[0]
+    except IOError as error:
+        print(error)
+        retval = None
+        return -1
+
+    if retval:
+        return process(retval)  
+
 #!解析和讯网黄金价格
 def getHexunGoldPrice(webpage):
     bFindFlag = False
@@ -23,21 +35,26 @@ def getHexunGoldPrice(webpage):
     f.close()
     return -1
 
-#!抓取网页数据
-def download(url, process):  
-    try:
-        retval = urlretrieve(url)[0]
-    except IOError:
-        retval = None
-        return -1
+#!解析和讯网黄金价格
+def getHexunDollarExchangeRate(webpage):
+    f = open(webpage)
+    lines = f.readlines()
+    for eachLine in lines:
+        print(eachLine)
 
-    if retval:
-        return process(retval)  
+    f.close()
+    return -1
 
 #!获取最新贵金属价格
 def getMetalPrice(metalType):
     if metalType == "GOLD":
         return download('http://gold.hexun.com/hjxh/', getHexunGoldPrice)
 
+#!获取最新美元汇率
+def getExChangeRate(moneyType):
+    if moneyType == "DOLLAR":
+        return download('http://forex.hexun.com/rmbhl/', getHexunDollarExchangeRate)
+
 if __name__ == '__main__':  
     print(getMetalPrice("GOLD"))
+    #print(getExChangeRate("DOLLAR"))
