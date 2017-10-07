@@ -2,6 +2,7 @@
 #encoding:utf-8  
 """price_BOC.py 获取中国银行最新的价格信息"""
 from web_common import download
+from price_object import Price_Object
 
 #!解析中国银行美元现汇买入价
 def getBOCDollarExchangeRate(webpage):
@@ -23,9 +24,7 @@ def getBOCDollarExchangeRate(webpage):
     return -1
 
 #!获取中国银行金融信息
-class Price_BOC:
-    fDollarRate = 0
-
+class Price_BOC(Price_Object):
     #!获取最新美元汇率
     def getExChangeRate(self, moneyType):
         if moneyType == "DOLLAR":
